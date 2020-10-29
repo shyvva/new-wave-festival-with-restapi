@@ -44,18 +44,15 @@ router.route('/seats').post((req, res) => {
     const { day, seat, client, email } = req.body;
     const id = Math.floor(Math.random() * 100);
 
-    if (day && seat && client && email) {
+    if (!db.seats.some(item => item.day == day && item.seat == seat)) {
         const newRecord = {
             id, day, seat, client, email
         };
 
-        db.seats.push(newRecord);
-
-        res.json({ message: 'OK' });
-    }
-    else {
-        res.status(400).json('Missing data to put new record')
-    }
+        res.json(db.seats.push(newRecord));
+    } else {
+        res.status(409).json({ message: 'The slot is already taken' })
+    };
 });
 
 router.route('/seats/:id').delete((req, res) => {
