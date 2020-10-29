@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 // import database
 const db = require('./db.js');
@@ -9,10 +10,9 @@ const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 const testimonialsRoutes = require('./routes/testimonials.routes');
 
-// app.use(cors());
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
 
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);
